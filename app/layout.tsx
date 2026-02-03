@@ -6,8 +6,8 @@ import { Providers } from './providers';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SolPulse - Your Solana Wallet's Vital Signs",
-  description: "Check your wallet health in 30 seconds. Find risks, fix problems, discover hidden value.",
+  title: "Noxium - Solana Wallet Intelligence",
+  description: "Advanced Solana portfolio analysis. Detect risks, monitor liquidations, audit security, and discover hidden value.",
 };
 
 export default function RootLayout({
