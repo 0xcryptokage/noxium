@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolPulse - Your Solana Wallet's Vital Signs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f1e 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 .highlight {
+            color: #a855f7;
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .hero .description {
+            font-size: 1.125rem;
+            color: #9ca3af;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .connect-btn {
+            background: #a855f7;
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .connect-btn:hover {
+            background: #9333ea;
+            transform: translateY(-2px);
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: #a855f7;
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        /* Dashboard (hidden by default) */
+        .dashboard {
+            display: none;
+            margin-top: 3rem;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .health-score {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            padding: 3rem;
+            border-radius: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .score-number {
+            font-size: 5rem;
+            font-weight: 900;
+        }
+
+        .score-label {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .action-btn {
+            background: #10b981;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 1rem;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #059669;
+        }
+
+        .action-btn.danger {
+            background: #ef4444;
+        }
+
+        .action-btn.danger:hover {
+            background: #dc2626;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem;
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <div id="hero" class="hero">
+            <h1>Sol<span class="highlight">Pulse</span> ⚡</h1>
+            <p class="tagline">Your Solana wallet's vital signs, in real-time.</p>
+            <p class="description">
+                Check your wallet health in 30 seconds. Find risks, fix problems, and discover hidden value—all in one click.
+            </p>
+            <button class="connect-btn" onclick="connectWallet()">Connect Wallet</button>
+        </div>
+
+        <!-- Features Grid -->
+        <div id="features" class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <div class="feature-title">Token Risk Scanner</div>
+                <div class="feature-desc">Detect scam tokens instantly. One-click sell to USDC.</div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚠️</div>
+                <div class="feature-title">Liquidation Monitor</div>
+                <div class="feature-desc">Track DeFi positions. Get alerts before liquidation.</div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <div class="feature-title">Security Audit</div>
+                <div class="feature-desc">Find dangerous token approvals. Revoke with one click.</div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <div class="feature-title">Hidden Value Finder</div>
+                <div class="feature-desc">Unclaimed airdrops. Idle assets. Free money found.</div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Health Score</div>
+                <div class="feature-desc">Overall wallet safety rating. Green, yellow, or red.</div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <div class="feature-title">Daily Digest</div>
+                <div class="feature-desc">Morning summary. Action items. Weekly recap.</div>
+            </div>
+        </div>
+
+        <!-- Dashboard (shown after connecting wallet) -->
+        <div id="dashboard" class="dashboard">
+            <div class="health-score">
+                <div class="score-number">68</div>
+                <div class="score-label">Portfolio Health Score</div>
+                <div style="margin-top: 1rem; font-size: 1.125rem;">🟡 Warning - 2 risks detected</div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon">🔍</div>
+                        <div class="card-title">Risky Tokens</div>
+                    </div>
+                    <p style="color: #9ca3af; margin-bottom: 1rem;">
+                        Found 3 tokens with risk scores > 70
+                    </p>
+                    <p style="margin-bottom: 0.5rem;">$SCAM - Risk: 95/100 🔴</p>
+                    <p style="margin-bottom: 0.5rem;">$PUMP - Risk: 72/100 🟡</p>
+                    <button class="action-btn danger">Sell All Risky Tokens</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon">⚠️</div>
+                        <div class="card-title">DeFi Positions</div>
+                    </div>
+                    <p style="color: #9ca3af; margin-bottom: 1rem;">
+                        2 positions tracked
+                    </p>
+                    <p style="margin-bottom: 0.5rem;">Kamino: Health 1.82 🟢</p>
+                    <p style="margin-bottom: 0.5rem;">MarginFi: Health 1.12 🟡</p>
+                    <button class="action-btn">Add Collateral</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon">🛡️</div>
+                        <div class="card-title">Security Audit</div>
+                    </div>
+                    <p style="color: #9ca3af; margin-bottom: 1rem;">
+                        3 dangerous approvals found
+                    </p>
+                    <p style="margin-bottom: 0.5rem;">USDC - Unlimited access 🔴</p>
+                    <p style="margin-bottom: 0.5rem;">SOL - 100 SOL approved 🟡</p>
+                    <button class="action-btn danger">Revoke All Suspicious</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon">💰</div>
+                        <div class="card-title">Hidden Value</div>
+                    </div>
+                    <p style="color: #9ca3af; margin-bottom: 1rem;">
+                        $87 found!
+                    </p>
+                    <p style="margin-bottom: 0.5rem;">Jupiter Airdrop: $45</p>
+                    <p style="margin-bottom: 0.5rem;">25 SOL unstaked: $14.50/mo potential</p>
+                    <button class="action-btn">Claim All</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Built for the Colosseum Agent Hackathon by Ace ⚡
+        </div>
+    </div>
+
+    <script>
+        function connectWallet() {
+            // Hide hero, show dashboard
+            document.getElementById('hero').style.display = 'none';
+            document.getElementById('features').style.display = 'none';
+            document.getElementById('dashboard').classList.add('active');
+        }
+    </script>
+</body>
+</html>
