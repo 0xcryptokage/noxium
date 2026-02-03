@@ -4,13 +4,18 @@ import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Connection, PublicKey } from '@solana/web3.js';
+import { getTokenMetadata, calculateRiskScore } from '@/lib/token-metadata';
 
 interface Token {
   mint: string;
   symbol: string;
+  name?: string;
+  logoURI?: string;
   balance: number;
   decimals: number;
   uiBalance: number;
+  riskScore?: number;
+  riskLevel?: string;
 }
 
 export default function Dashboard() {
@@ -55,7 +60,26 @@ export default function Dashboard() {
         })
         .filter(t => t.uiBalance > 0);
 
-      setTokens(tokenList);
+      // Fetch metadata and calculate risk for each token
+      const enrichedTokens = await Promise.all(
+        tokenList.map(async (token) => {
+          const metadata = await getTokenMetadata(token.mint);
+          if (metadata) {
+            const risk = calculateRiskScore(metadata);
+            return {
+              ...token,
+              symbol: metadata.symbol,
+              name: metadata.name,
+              logoURI: metadata.logoURI,
+              riskScore: risk.score,
+              riskLevel: risk.level
+            };
+          }
+          return token;
+        })
+      );
+
+      setTokens(enrichedTokens);
       
       // Simple health score: 100 - (number of tokens * 2)
       // More tokens = potentially more risk
@@ -192,10 +216,37 @@ export default function Dashboard() {
             <div className="token-grid">
               {tokens.map((token, i) => (
                 <div key={i} className="token-card">
-                  <div className="token-symbol">{token.symbol}</div>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem'}}>
+                    {token.logoURI && (
+                      <img src={token.logoURI} alt={token.symbol} style={{width: '32px', height: '32px', borderRadius: '50%'}} />
+                    )}
+                    <div>
+                      <div className="token-symbol">{token.symbol}</div>
+                      {token.name && <div style={{fontSize: '0.8rem', color: '#6b7280'}}>{token.name}</div>}
+                    </div>
+                  </div>
                   <div className="token-balance">
                     {token.uiBalance.toFixed(6)}
                   </div>
+                  {token.riskScore !== undefined && (
+                    <div style={{
+                      marginTop: '0.75rem',
+                      padding: '0.5rem',
+                      borderRadius: '6px',
+                      background: token.riskLevel === 'critical' ? 'rgba(239,68,68,0.1)' : 
+                                  token.riskLevel === 'high' ? 'rgba(249,115,22,0.1)' :
+                                  token.riskLevel === 'medium' ? 'rgba(251,191,36,0.1)' :
+                                  'rgba(16,185,129,0.1)',
+                      color: token.riskLevel === 'critical' ? '#ef4444' : 
+                             token.riskLevel === 'high' ? '#f97316' :
+                             token.riskLevel === 'medium' ? '#fbbf24' :
+                             '#10b981',
+                      fontSize: '0.85rem',
+                      fontWeight: '600'
+                    }}>
+                      Risk: {token.riskScore}/100 {token.riskLevel === 'critical' ? '🔴' : token.riskLevel === 'high' ? '🟠' : token.riskLevel === 'medium' ? '🟡' : '🟢'}
+                    </div>
+                  )}
                   <div className="token-mint">
                     {token.mint.slice(0, 8)}...{token.mint.slice(-4)}
                   </div>
