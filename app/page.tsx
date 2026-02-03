@@ -80,7 +80,7 @@ export default function Home() {
         .logo {
           font-size: 5rem;
           font-weight: 900;
-          letter-spacing: 0.3rem;
+          letter-spacing: 0.1rem;
           text-transform: uppercase;
           background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%);
           -webkit-background-clip: text;
@@ -99,7 +99,7 @@ export default function Home() {
           font-size: 1.5rem;
           color: #a855f7;
           text-transform: uppercase;
-          letter-spacing: 0.3rem;
+          letter-spacing: 0.1rem;
           margin-bottom: 2rem;
           text-shadow: 0 0 20px rgba(168, 85, 247, 0.8);
         }
