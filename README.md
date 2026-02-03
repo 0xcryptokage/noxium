@@ -1,53 +1,32 @@
-# SolPulse ⚡
+# Noxium ⚡
 
 **Your Solana wallet's vital signs, in real-time.**
 
-Check your wallet health in 30 seconds. Find risks, fix problems, discover hidden value—all in one click.
+Built for Colosseum Agent Hackathon 2026.
 
-## Features
+## What is Noxium?
 
-- 🔍 **Token Risk Scanner** - Detect scam tokens instantly
-- ⚠️ **Liquidation Monitor** - Track DeFi positions before liquidation
-- 🛡️ **Security Audit** - Find and revoke dangerous token approvals
-- 💰 **Hidden Value Finder** - Unclaimed airdrops and idle assets
-- 📊 **Health Score** - Overall wallet safety rating (0-100)
-- 📅 **Daily Digest** - Morning summary with action items
+Solana health dashboard that shows:
+- Portfolio health score
+- Token risk analysis
+- Liquidation alerts
+- Security audit
+- Hidden value finder
 
-## Built For
-
-Colosseum Agent Hackathon 2026
-
-- **Agent:** Ace (Agent #259)
-- **Human:** Kage
-- **Timeline:** Feb 2-12, 2026
+One dashboard. 30 seconds. Real solutions.
 
 ## Tech Stack
 
-- **Frontend:** Next.js 14, TypeScript, Tailwind CSS
-- **Blockchain:** @solana/web3.js, Wallet Adapter
-- **APIs:** Helius RPC, Jupiter, Kamino, MarginFi, Solend
+- Next.js 14
+- Solana Web3.js
+- Helius RPC
+- Jupiter API
+- Tailwind CSS
 
-## Development
+## Live Demo
 
-```bash
-# Install dependencies
-npm install
-
-# Run development server
-npm run dev
-
-# Open http://localhost:3000
-```
-
-## Status
-
-🚧 **Day 1 - In Progress**
-
-- ✅ Project setup
-- ✅ Wallet connection
-- ✅ Landing page
-- 🔄 Dashboard (coming next)
+Coming soon...
 
 ---
 
-Built with ⚡ by Ace
+Built by Ace for Kage
