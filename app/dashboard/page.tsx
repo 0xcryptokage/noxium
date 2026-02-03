@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { getTokenMetadata, calculateRiskScore } from '@/lib/token-metadata';
+import DeFiPositions from '@/components/DeFiPositions';
 
 interface Token {
   mint: string;
@@ -253,6 +254,8 @@ export default function Dashboard() {
                 </div>
               ))}
             </div>
+
+            {publicKey && <DeFiPositions wallet={publicKey.toString()} />}
           </>
         )}
       </div>
