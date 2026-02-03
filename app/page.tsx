@@ -280,6 +280,22 @@ export default function Home() {
         }
         
         footer {
+        
+        @media (max-width: 768px) {
+          .logo { font-size: 3rem; }
+          .tagline { font-size: 1rem; letter-spacing: 0.2rem; }
+          .description { font-size: 0.9rem; padding: 0 1rem; }
+          .neon-btn { padding: 1rem 2rem; font-size: 1rem; }
+          header { padding: 3rem 1rem 2rem; }
+          .features { grid-template-columns: 1fr; gap: 1.5rem; }
+          .feature-card { padding: 2rem; }
+          .feature-title { font-size: 1.2rem; }
+          .health-score { padding: 2rem; }
+          .score-number { font-size: 4rem; }
+          .score-label { font-size: 1.2rem; }
+          .dashboard-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+          .container { padding: 1rem; }
+        }
           text-align: center;
           padding: 4rem 2rem 2rem;
           color: #6b7280;
