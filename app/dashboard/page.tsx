@@ -3,31 +3,71 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Connection, PublicKey } from '@solana/web3.js';
+
+interface Token {
+  mint: string;
+  symbol: string;
+  balance: number;
+  decimals: number;
+  uiBalance: number;
+}
 
 export default function Dashboard() {
   const { publicKey, connected } = useWallet();
-  const [tokens, setTokens] = useState<any[]>([]);
+  const [tokens, setTokens] = useState<Token[]>([]);
+  const [solBalance, setSolBalance] = useState(0);
   const [loading, setLoading] = useState(false);
   const [healthScore, setHealthScore] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
     if (connected && publicKey) {
-      setLoading(true);
-      fetch('/api/wallet/tokens', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ wallet: publicKey.toString() }),
-      })
-        .then(res => res.json())
-        .then(data => {
-          setTokens(data.tokens || []);
-          setHealthScore(Math.floor(Math.random() * 40) + 60);
-          setLoading(false);
-        })
-        .catch(() => setLoading(false));
+      fetchWalletData();
     }
   }, [connected, publicKey]);
+
+  const fetchWalletData = async () => {
+    if (!publicKey) return;
+    
+    setLoading(true);
+    try {
+      // Get SOL balance
+      const connection = new Connection('https://api.mainnet-beta.solana.com');
+      const balance = await connection.getBalance(publicKey);
+      setSolBalance(balance / 1e9);
+
+      // Get token accounts
+      const tokenAccounts = await connection.getParsedTokenAccountsByOwner(publicKey, {
+        programId: new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA')
+      });
+
+      const tokenList: Token[] = tokenAccounts.value
+        .map(account => {
+          const data = account.account.data.parsed.info;
+          return {
+            mint: data.mint,
+            symbol: 'UNKNOWN',
+            balance: parseInt(data.tokenAmount.amount),
+            decimals: data.tokenAmount.decimals,
+            uiBalance: parseFloat(data.tokenAmount.uiAmount || '0')
+          };
+        })
+        .filter(t => t.uiBalance > 0);
+
+      setTokens(tokenList);
+      
+      // Simple health score: 100 - (number of tokens * 2)
+      // More tokens = potentially more risk
+      const score = Math.max(50, Math.min(100, 100 - tokenList.length * 2));
+      setHealthScore(score);
+      
+    } catch (error) {
+      console.error('Error fetching wallet data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -36,8 +76,9 @@ export default function Dashboard() {
           background: linear-gradient(180deg, #000000 0%, #0a0a0f 100%);
           color: #fff;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          min-height: 100vh;
         }
-        .dashboard-wrap { max-width: 1400px; margin: 0 auto; padding: 2rem; min-height: 100vh; }
+        .dashboard-wrap { max-width: 1400px; margin: 0 auto; padding: 2rem; }
         .wallet-bar { 
           display: flex;
           justify-content: space-between;
@@ -139,6 +180,9 @@ export default function Dashboard() {
               <div style={{marginTop: '1rem', fontSize: '1rem', color: healthScore > 80 ? '#10b981' : healthScore > 60 ? '#fbbf24' : '#ef4444'}}>
                 {healthScore > 80 ? '● Excellent' : healthScore > 60 ? '● Warning' : '● Critical'}
               </div>
+              <div style={{marginTop: '1.5rem', fontSize: '0.95rem', color: '#6b7280'}}>
+                SOL Balance: {solBalance.toFixed(4)} SOL
+              </div>
             </div>
 
             <div className="section-title">
@@ -146,11 +190,11 @@ export default function Dashboard() {
             </div>
 
             <div className="token-grid">
-              {tokens.slice(0, 12).map((token, i) => (
+              {tokens.map((token, i) => (
                 <div key={i} className="token-card">
                   <div className="token-symbol">{token.symbol}</div>
                   <div className="token-balance">
-                    {(token.balance / Math.pow(10, token.decimals)).toFixed(4)}
+                    {token.uiBalance.toFixed(6)}
                   </div>
                   <div className="token-mint">
                     {token.mint.slice(0, 8)}...{token.mint.slice(-4)}
