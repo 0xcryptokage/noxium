@@ -317,7 +317,7 @@ export default function Home() {
               Advanced Solana portfolio analysis. Detect risks, monitor liquidations, 
               audit security, and discover hidden value—all in real-time.
             </p>
-            <button className="neon-btn" onClick={connectWallet}>CONNECT WALLET</button>
+            <button className="neon-btn" onClick={() => window.location.href = '/dashboard'}>CONNECT WALLET</button>
           </header>
           
           <div className="features">
