@@ -32,27 +32,102 @@ export default function Dashboard() {
   return (
     <>
       <style jsx global>{`
-        body { background: #000; color: #fff; font-family: 'Courier New', monospace; }
-        .dashboard-wrap { max-width: 1400px; margin: 0 auto; padding: 2rem; }
-        .wallet-bar { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; }
-        .back-btn { color: #a855f7; cursor: pointer; font-size: 1.2rem; }
-        .health-card { background: linear-gradient(135deg, rgba(147,51,234,0.3), rgba(236,72,153,0.3)); border: 2px solid #9333ea; padding: 3rem; text-align: center; margin: 2rem 0; }
-        .health-num { font-size: 5rem; font-weight: 900; color: #a855f7; }
-        .token-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-        .token-card { background: rgba(20,20,30,0.9); border: 2px solid rgba(147,51,234,0.4); padding: 1.5rem; }
-        .token-symbol { font-size: 1.5rem; font-weight: 700; color: #a855f7; margin-bottom: 0.5rem; }
-        .token-balance { color: #9ca3af; }
+        body { 
+          background: linear-gradient(180deg, #000000 0%, #0a0a0f 100%);
+          color: #fff;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        .dashboard-wrap { max-width: 1400px; margin: 0 auto; padding: 2rem; min-height: 100vh; }
+        .wallet-bar { 
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1.5rem 0 3rem;
+          border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+          margin-bottom: 3rem;
+        }
+        .back-btn { 
+          color: #9ca3af;
+          cursor: pointer;
+          font-size: 1rem;
+          font-weight: 500;
+          transition: color 0.2s;
+        }
+        .back-btn:hover { color: #a855f7; }
+        .health-card { 
+          background: rgba(255, 255, 255, 0.03);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(147, 51, 234, 0.2);
+          border-radius: 16px;
+          padding: 3rem;
+          text-align: center;
+          margin: 0 0 3rem;
+        }
+        .health-num { 
+          font-size: 5rem;
+          font-weight: 900;
+          background: linear-gradient(135deg, #9333ea, #ec4899);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .section-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #9ca3af;
+          margin-bottom: 1.5rem;
+        }
+        .token-grid { 
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+          gap: 1.5rem;
+        }
+        .token-card { 
+          background: rgba(255, 255, 255, 0.03);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(147, 51, 234, 0.2);
+          border-radius: 12px;
+          padding: 1.5rem;
+          transition: all 0.2s;
+        }
+        .token-card:hover {
+          border-color: rgba(147, 51, 234, 0.5);
+          transform: translateY(-2px);
+        }
+        .token-symbol { 
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #ffffff;
+          margin-bottom: 0.75rem;
+        }
+        .token-balance { color: #9ca3af; font-size: 0.95rem; }
+        .token-mint { font-size: 0.8rem; color: #6b7280; margin-top: 0.5rem; }
+        .connect-prompt {
+          text-align: center;
+          padding: 6rem 2rem;
+        }
+        .connect-title {
+          font-size: 2rem;
+          font-weight: 700;
+          color: #ffffff;
+          margin-bottom: 1rem;
+        }
+        .connect-subtitle {
+          font-size: 1.1rem;
+          color: #9ca3af;
+          margin-bottom: 2rem;
+        }
       `}</style>
 
       <div className="dashboard-wrap">
         <div className="wallet-bar">
-          <div className="back-btn" onClick={() => router.push('/')}>← BACK</div>
+          <div className="back-btn" onClick={() => router.push('/')}>← Back to Home</div>
           <WalletMultiButton />
         </div>
 
         {!connected && (
-          <div style={{textAlign: 'center', padding: '4rem', fontSize: '1.5rem', color: '#a855f7'}}>
-            CONNECT WALLET TO CONTINUE
+          <div className="connect-prompt">
+            <div className="connect-title">Connect Your Wallet</div>
+            <div className="connect-subtitle">Get instant portfolio analysis and risk insights</div>
           </div>
         )}
 
@@ -60,14 +135,14 @@ export default function Dashboard() {
           <>
             <div className="health-card">
               <div className="health-num">{healthScore}</div>
-              <div style={{fontSize: '1.5rem', color: '#a855f7', marginTop: '1rem'}}>HEALTH SCORE</div>
-              <div style={{marginTop: '1rem', color: '#fbbf24'}}>
-                {healthScore > 80 ? '🟢 GOOD' : healthScore > 60 ? '🟡 WARNING' : '🔴 CRITICAL'}
+              <div style={{fontSize: '1.25rem', fontWeight: '600', color: '#9ca3af', marginTop: '1rem'}}>Portfolio Health Score</div>
+              <div style={{marginTop: '1rem', fontSize: '1rem', color: healthScore > 80 ? '#10b981' : healthScore > 60 ? '#fbbf24' : '#ef4444'}}>
+                {healthScore > 80 ? '● Excellent' : healthScore > 60 ? '● Warning' : '● Critical'}
               </div>
             </div>
 
-            <div style={{fontSize: '1.2rem', color: '#9ca3af', marginBottom: '1rem'}}>
-              {loading ? 'LOADING TOKENS...' : `${tokens.length} TOKENS FOUND`}
+            <div className="section-title">
+              {loading ? 'Loading tokens...' : `${tokens.length} Token${tokens.length !== 1 ? 's' : ''} Found`}
             </div>
 
             <div className="token-grid">
@@ -75,10 +150,10 @@ export default function Dashboard() {
                 <div key={i} className="token-card">
                   <div className="token-symbol">{token.symbol}</div>
                   <div className="token-balance">
-                    Balance: {(token.balance / Math.pow(10, token.decimals)).toFixed(4)}
+                    {(token.balance / Math.pow(10, token.decimals)).toFixed(4)}
                   </div>
-                  <div style={{marginTop: '0.5rem', fontSize: '0.8rem', color: '#6b7280'}}>
-                    {token.mint.slice(0, 8)}...
+                  <div className="token-mint">
+                    {token.mint.slice(0, 8)}...{token.mint.slice(-4)}
                   </div>
                 </div>
               ))}
