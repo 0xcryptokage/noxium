@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { getTokenMetadata, calculateRiskScore } from '@/lib/token-metadata';
+import { getJupiterSwapUrl } from '@/lib/jupiter-swap';
 import DeFiPositions from '@/components/DeFiPositions';
 
 interface Token {
@@ -247,6 +248,27 @@ export default function Dashboard() {
                     }}>
                       Risk: {token.riskScore}/100 {token.riskLevel === 'critical' ? '🔴' : token.riskLevel === 'high' ? '🟠' : token.riskLevel === 'medium' ? '🟡' : '🟢'}
                     </div>
+                  )}
+                  {token.riskScore && token.riskScore >= 70 && (
+                    <a
+                      href={getJupiterSwapUrl(token.mint)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'block',
+                        marginTop: '0.75rem',
+                        padding: '0.5rem',
+                        background: '#ef4444',
+                        color: '#fff',
+                        textAlign: 'center',
+                        borderRadius: '6px',
+                        textDecoration: 'none',
+                        fontSize: '0.85rem',
+                        fontWeight: '600'
+                      }}
+                    >
+                      Sell to USDC →
+                    </a>
                   )}
                   <div className="token-mint">
                     {token.mint.slice(0, 8)}...{token.mint.slice(-4)}
