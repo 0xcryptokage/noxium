@@ -1,4 +1,4 @@
-// Helius API Integration for SolPulse
+// Helius API Integration for Noxium
 // Free tier: 100k requests/day
 
 const HELIUS_API_KEY = process.env.NEXT_PUBLIC_HELIUS_API_KEY || 'YOUR_KEY_HERE';
