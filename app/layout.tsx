@@ -8,6 +8,18 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Noxium - Solana Wallet Intelligence",
   description: "Advanced Solana portfolio analysis. Detect risks, monitor liquidations, audit security, and discover hidden value.",
+  openGraph: {
+    title: "Noxium - Solana Wallet Intelligence",
+    description: "Advanced Solana portfolio analysis. Detect risks, monitor liquidations, audit security, and discover hidden value.",
+    url: "https://noxium-sol.vercel.app",
+    siteName: "Noxium",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Noxium - Solana Wallet Intelligence",
+    description: "Advanced Solana portfolio analysis. Detect risks, monitor liquidations, audit security, and discover hidden value.",
+  },
 };
 
 export default function RootLayout({

@@ -1,23 +1,27 @@
-# SolPulse Progress
+# Noxium Development Progress
 
 ## Day 1 - Feb 3, 2026
 
-### Completed ✅
-- Project setup
-- HTML prototype (working, Kage approved)
-- Helius API integration code
-- Jupiter swap integration
-- Token risk scoring algorithm
-- Health score calculator
+### ✅ Completed
+- Rebranded from SolPulse to Noxium
+- Dark cyberpunk design with purple neon
+- Deployed to Vercel: noxium-sol.vercel.app
+- GitHub repo: 0xcryptokage/noxium
+- Mobile responsive layout
+- Helius + Jupiter integration code written
+- Installing Solana wallet adapters
 
-### In Progress 🔄
-- Fixing Next.js deployment
-- Getting Vercel URL
+### 🔄 In Progress
+- Wallet connection (Phantom/Solflare)
+- Real token data fetching
+- Risk scoring implementation
 
-### Next
-- Wire up wallet connection
-- Display real token data
-- Make swap buttons functional
+### 📋 Next (Tonight)
+- Wire up wallet to dashboard
+- Fetch real tokens via Helius
+- Display token balances
+- Calculate health scores
+- Make swap buttons work
 
 ---
-Last update: 17:28 ET
+Last update: 19:05 ET
