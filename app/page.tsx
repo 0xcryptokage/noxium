@@ -190,16 +190,20 @@ export default function Home() {
         
         <div className="stats">
           <div className="stat-card">
-            <div className="stat-number">100%</div>
-            <div className="stat-label">On-Chain</div>
+            <div className="stat-number">5</div>
+            <div className="stat-label">Core Features</div>
           </div>
           <div className="stat-card">
-            <div className="stat-number">&lt;1s</div>
-            <div className="stat-label">Analysis Time</div>
+            <div className="stat-number">&lt;30s</div>
+            <div className="stat-label">Full Analysis</div>
           </div>
           <div className="stat-card">
             <div className="stat-number">24/7</div>
-            <div className="stat-label">Monitoring</div>
+            <div className="stat-label">Real-time</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-number">$0</div>
+            <div className="stat-label">Free Forever</div>
           </div>
         </div>
         
