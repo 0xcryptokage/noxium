@@ -8,6 +8,7 @@ import { getTokenMetadata, calculateRiskScore } from '@/lib/token-metadata';
 import { getJupiterSwapUrl } from '@/lib/jupiter-swap';
 import DeFiPositions from '@/components/DeFiPositions';
 import HiddenValue from '@/components/HiddenValue';
+import SecurityAudit from '@/components/SecurityAudit';
 
 interface Token {
   mint: string;
@@ -280,6 +281,7 @@ export default function Dashboard() {
 
             {publicKey && (
               <>
+                <SecurityAudit wallet={publicKey.toString()} />
                 <DeFiPositions wallet={publicKey.toString()} />
                 <HiddenValue wallet={publicKey.toString()} solBalance={solBalance} tokens={tokens} />
               </>
