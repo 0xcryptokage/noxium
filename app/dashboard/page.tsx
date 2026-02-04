@@ -9,6 +9,7 @@ import { getJupiterSwapUrl } from '@/lib/jupiter-swap';
 import DeFiPositions from '@/components/DeFiPositions';
 import HiddenValue from '@/components/HiddenValue';
 import SecurityAudit from '@/components/SecurityAudit';
+import PortfolioValue from '@/components/PortfolioValue';
 
 interface Token {
   mint: string;
@@ -213,6 +214,7 @@ export default function Dashboard() {
               <div style={{marginTop: '1.5rem', fontSize: '0.95rem', color: '#6b7280'}}>
                 SOL Balance: {solBalance.toFixed(4)} SOL
               </div>
+              <PortfolioValue solBalance={solBalance} tokens={tokens} />
             </div>
 
             <div className="section-title">
