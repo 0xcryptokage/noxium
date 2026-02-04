@@ -27,6 +27,7 @@ export default function Dashboard() {
   const [tokens, setTokens] = useState<Token[]>([]);
   const [solBalance, setSolBalance] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [healthScore, setHealthScore] = useState(0);
   const router = useRouter();
 
@@ -92,6 +93,7 @@ export default function Dashboard() {
       
     } catch (error) {
       console.error('Error fetching wallet data:', error);
+      setError('Failed to load wallet data. Please try again.');
     } finally {
       setLoading(false);
     }
