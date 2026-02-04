@@ -7,6 +7,7 @@ import { Connection, PublicKey } from '@solana/web3.js';
 import { getTokenMetadata, calculateRiskScore } from '@/lib/token-metadata';
 import { getJupiterSwapUrl } from '@/lib/jupiter-swap';
 import DeFiPositions from '@/components/DeFiPositions';
+import HiddenValue from '@/components/HiddenValue';
 
 interface Token {
   mint: string;
@@ -277,7 +278,12 @@ export default function Dashboard() {
               ))}
             </div>
 
-            {publicKey && <DeFiPositions wallet={publicKey.toString()} />}
+            {publicKey && (
+              <>
+                <DeFiPositions wallet={publicKey.toString()} />
+                <HiddenValue wallet={publicKey.toString()} solBalance={solBalance} tokens={tokens} />
+              </>
+            )}
           </>
         )}
       </div>
